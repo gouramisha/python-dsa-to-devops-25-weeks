@@ -1,0 +1,24 @@
+
+name: DevOps Roadmap Automation Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  test-roadmap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check roadmap files
+        run: |
+          echo "Checking repository files..."
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Available files:"
+          find . -maxdepth 3 -type f
