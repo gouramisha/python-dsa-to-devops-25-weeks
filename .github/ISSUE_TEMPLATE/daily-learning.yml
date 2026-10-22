@@ -1,0 +1,63 @@
+
+name: Daily Learning Log
+description: Track daily DevOps learning
+title: "Daily Learning Log"
+labels:
+  - learning-log
+body:
+  - type: input
+    id: date
+    attributes:
+      label: Study Date
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+
+  - type: input
+    id: topic
+    attributes:
+      label: Topic Studied
+      placeholder: Python Variables
+    validations:
+      required: true
+
+  - type: input
+    id: video
+    attributes:
+      label: Video URL
+      placeholder: Paste YouTube link
+    validations:
+      required: false
+
+  - type: dropdown
+    id: hours
+    attributes:
+      label: Study Hours
+      options:
+        - 30 minutes
+        - 1 hour
+        - 2 hours
+        - 3 hours
+        - 4+ hours
+    validations:
+      required: true
+
+  - type: textarea
+    id: practice
+    attributes:
+      label: Practice Completed
+      placeholder: What did you code or practice?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Completion Status
+      options:
+        - Todo
+        - In Progress
+        - Done
+        - Needs Revision
+    validations:
+      required: true
