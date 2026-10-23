@@ -1,24 +1,306 @@
 
-name: DevOps Roadmap Automation Test
+name: Create DevOps Roadmap Issues
 
 on:
   workflow_dispatch:
 
 permissions:
   contents: read
-  issues: read
+  issues: write
 
 jobs:
-  test-roadmap:
+  create-roadmap-issues:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Check roadmap files
+      - name: Create weekly roadmap issues
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          echo "Checking repository files..."
-          echo "Repository: $GITHUB_REPOSITORY"
-          echo "Available files:"
-          find . -maxdepth 3 -type f
+          create_issue() {
+            title="$1"
+            body="$2"
+
+            existing=$(gh issue list \
+              --repo "$GH_REPO" \
+              --state all \
+              --search "$title in:title" \
+              --json title \
+              --jq "[.[] | select(.title == \"$title\")] | length")
+
+            if [ "$existing" -gt 0 ]; then
+              echo "Already exists, skipping: $title"
+            else
+              gh issue create \
+                --repo "$GH_REPO" \
+                --title "$title" \
+                --body "$body"
+              echo "Created: $title"
+            fi
+          }
+
+          create_issue "Week 1: Python Basics" \
+            "Topics: Variables, data types and operators.
+
+          - [ ] Study concepts
+          - [ ] Watch a learning video
+          - [ ] Write Python code
+          - [ ] Practise exercises
+          - [ ] Upload practice to GitHub
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 2: Conditions, Loops and Functions" \
+            "Topics: Conditions, loops and functions.
+
+          - [ ] Study concepts
+          - [ ] Watch a learning video
+          - [ ] Write Python code
+          - [ ] Practise exercises
+          - [ ] Upload practice to GitHub
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 3: Python Collections" \
+            "Topics: Lists, strings, sets and dictionaries.
+
+          - [ ] Study concepts
+          - [ ] Watch a learning video
+          - [ ] Write Python code
+          - [ ] Practise exercises
+          - [ ] Upload practice to GitHub
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 4: OOP, Files and Exceptions" \
+            "Topics: OOP, files, exceptions and modules.
+
+          - [ ] Study concepts
+          - [ ] Write examples
+          - [ ] Practise exercises
+          - [ ] Upload practice to GitHub
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 5: DSA Fundamentals" \
+            "Topics: Arrays, searching, sorting and complexity.
+
+          - [ ] Study concepts
+          - [ ] Solve DSA problems
+          - [ ] Explain solutions
+          - [ ] Upload practice to GitHub
+
+          Study hours:
+          Problems solved:
+          Doubts and notes:"
+
+          create_issue "Week 6: Linux Commands" \
+            "Topics: Linux commands and filesystem.
+
+          - [ ] Practise Linux commands
+          - [ ] Explore filesystem
+          - [ ] Record commands and examples
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 7: Linux Administration Basics" \
+            "Topics: Users, permissions, processes and services.
+
+          - [ ] Practise user and permission commands
+          - [ ] Inspect processes and services
+          - [ ] Document commands
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 8: Networking Fundamentals" \
+            "Topics: Networking, DNS, HTTP and SSH.
+
+          - [ ] Study networking concepts
+          - [ ] Practise DNS and HTTP tools
+          - [ ] Practise SSH safely
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 9: Bash and Backups" \
+            "Topics: Bash scripting and automated backups.
+
+          - [ ] Write Bash scripts
+          - [ ] Create a backup script
+          - [ ] Test and document it
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 10: Python Automation" \
+            "Topics: Python automation and logging.
+
+          - [ ] Write an automation script
+          - [ ] Add logging
+          - [ ] Test and document the script
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 11: FastAPI Basics" \
+            "Topics: Routes, requests and validation.
+
+          - [ ] Build API routes
+          - [ ] Validate request data
+          - [ ] Test endpoints
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 12: SQLAlchemy and PostgreSQL" \
+            "Topics: FastAPI, SQLAlchemy and PostgreSQL.
+
+          - [ ] Connect an application to a database
+          - [ ] Practise database operations
+          - [ ] Test API and database integration
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 13: Django Fundamentals" \
+            "Topics: Models, views and ORM.
+
+          - [ ] Create a Django project
+          - [ ] Practise models and views
+          - [ ] Test ORM operations
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 14: Django REST Framework" \
+            "Topics: DRF and API testing.
+
+          - [ ] Create API endpoints
+          - [ ] Practise serializers
+          - [ ] Test API responses
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 15: Docker Fundamentals" \
+            "Topics: Images, containers and Dockerfiles.
+
+          - [ ] Build a Docker image
+          - [ ] Run a container
+          - [ ] Write a Dockerfile
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 16: Docker Compose" \
+            "Topics: Docker Compose and databases.
+
+          - [ ] Write a Compose file
+          - [ ] Run multiple services
+          - [ ] Test database connectivity
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 17: pytest and GitHub Actions" \
+            "Topics: Testing and CI/CD.
+
+          - [ ] Write pytest tests
+          - [ ] Run tests locally
+          - [ ] Build a GitHub Actions workflow
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 18: AWS Fundamentals" \
+            "Topics: IAM, EC2, S3 and VPC fundamentals.
+
+          - [ ] Study AWS services
+          - [ ] Complete a safe practice lab
+          - [ ] Document key concepts
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 19: Cloud Deployment" \
+            "Topics: Deploy a Dockerized application to a cloud VM.
+
+          - [ ] Prepare the application
+          - [ ] Deploy securely
+          - [ ] Test the deployment
+          - [ ] Document the steps
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 20: Terraform" \
+            "Topics: Infrastructure as Code.
+
+          - [ ] Write Terraform configuration
+          - [ ] Run terraform fmt and validate
+          - [ ] Practise plan safely
+          - [ ] Document resources
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 21: Kubernetes Basics" \
+            "Topics: Pods, Deployments and Services.
+
+          - [ ] Learn core objects
+          - [ ] Deploy a sample application
+          - [ ] Inspect resources
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 22: Kubernetes Operations" \
+            "Topics: Configuration, probes and scaling.
+
+          - [ ] Practise ConfigMaps and Secrets safely
+          - [ ] Configure health probes
+          - [ ] Practise scaling
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 23: Monitoring and Security" \
+            "Topics: Prometheus, Grafana, logging and security.
+
+          - [ ] Set up a monitoring lab
+          - [ ] Explore metrics and dashboards
+          - [ ] Review basic security practices
+
+          Study hours:
+          Doubts and notes:"
+
+          create_issue "Week 24: DevOps Capstone Project" \
+            "Build an end-to-end DevOps capstone project.
+
+          - [ ] Define project requirements
+          - [ ] Build and test the application
+          - [ ] Automate deployment
+          - [ ] Document architecture and setup
+
+          Study hours:
+          Project link:
+          Doubts and notes:"
+
+          create_issue "Week 25: Revision and Job Preparation" \
+            "Topics: Revision, documentation and interview preparation.
+
+          - [ ] Revise all roadmap phases
+          - [ ] Update project documentation
+          - [ ] Review interview questions
+          - [ ] Check portfolio readiness
+
+          Study hours:
+          Remaining gaps:
+          Next steps:"
